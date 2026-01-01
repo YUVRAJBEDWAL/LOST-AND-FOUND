@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Report Lost Item | Campus Lost & Found</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <a class="logo" href="index.html"><strong>Campus Lost & Found</strong></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="items-list.html">Items</a></li>
+          <li><a class="btn btn-primary" href="report-lost.html">Report Lost</a></li>
+          <li><a href="report-found.html">Report Found</a></li>
+          <li><a href="login.html" class="btn btn-login">Login</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero" style="padding-bottom:3rem;">
+    <div class="container">
+      <h1>Report a Lost Item</h1>
+      <p>Submit details so our community can help you retrieve it quickly.</p>
+    </div>
+  </section>
+
+  <main class="container">
+    <form class="form-card" data-validate>
+      <div class="form-row">
+        <div class="field">
+          <label for="fullName">Full Name</label>
+          <input type="text" id="fullName" name="fullName" placeholder="Jane Doe" required />
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="jane@college.edu" required />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" />
+        </div>
+        <div class="field">
+          <label for="itemName">Item Name</label>
+          <input type="text" id="itemName" name="itemName" placeholder="e.g. Lenovo Laptop" required />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label for="category">Category</label>
+          <select id="category" name="category" required>
+            <option value="">Choose...</option>
+            <option>Electronics</option>
+            <option>Accessories</option>
+            <option>Books</option>
+            <option>IDs</option>
+            <option>Others</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="lostDate">Date Lost</label>
+          <input type="date" id="lostDate" name="lostDate" required />
+        </div>
+        <div class="field">
+          <label for="location">Location</label>
+          <input type="text" id="location" name="location" placeholder="Library, 2nd Floor" required />
+        </div>
+      </div>
+      <div class="field">
+        <label for="description">Description</label>
+        <textarea id="description" name="description" placeholder="Describe unique identifiers, stickers, etc." required></textarea>
+      </div>
+      <div class="field">
+        <label for="photo">Upload Photo</label>
+        <input type="file" id="photo" name="photo" accept="image/*" />
+      </div>
+      <button class="btn btn-primary" type="submit">Submit Report</button>
+    </form>
+  </main>
+
+  <footer class="footer">
+    <p>Need support? Email campus-security@college.edu</p>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async function() {
+      // Check if user is authenticated
+      if (!checkAuth()) return;
+      
+      const form = document.querySelector('form[data-validate]');
+      const submitBtn = form.querySelector('button[type="submit"]');
+      
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData(form);
+        const itemData = {
+          itemName: formData.get('itemName'),
+          description: formData.get('description'),
+          location: formData.get('location'),
+          lostDate: formData.get('lostDate'),
+          category: formData.get('category') ? formData.get('category').toUpperCase() : 'OTHERS'
+        };
+        
+        try {
+          UI.showLoading(submitBtn);
+          
+          const response = await API.lostItems.create(itemData);
+          UI.showAlert('Lost item reported successfully!', 'success');
+          
+          // Reset form
+          form.reset();
+          
+          // Redirect to items list after successful submission
+          setTimeout(() => {
+            window.location.href = 'items-list.html';
+          }, 1500);
+          
+        } catch (error) {
+          UI.showAlert(error.message, 'error');
+        } finally {
+          UI.hideLoading(submitBtn);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

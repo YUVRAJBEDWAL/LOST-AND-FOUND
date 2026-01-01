@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage Items | Campus Lost & Found</title>
+  <link rel="stylesheet" href="../assets/css/admin.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <h2>CLF Admin</h2>
+      <ul>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="manage-users.html">Manage Users</a></li>
+        <li><a class="active" href="manage-items.html">Manage Items</a></li>
+        <li><a href="reports.html">Reports</a></li>
+        <li><a href="admin-login.html">Logout</a></li>
+      </ul>
+    </aside>
+    <section class="main-panel">
+      <div class="topbar">
+        <h1>Item Management</h1>
+        <div style="display:flex; gap:0.5rem;">
+          <button class="btn btn-outline" data-open-modal="bulkModal">Bulk Actions</button>
+          <button class="btn btn-primary">New Item</button>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <h2>Lost Items</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Owner</th>
+              <th>Location</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-id="L1">
+              <td>Graphic Tablet</td>
+              <td>Mina Roy</td>
+              <td>Design Studio</td>
+              <td><span class="badge badge-danger">Pending</span></td>
+              <td>
+                <button class="btn btn-outline" data-action="assign">Assign</button>
+                <button class="btn btn-outline" data-action="close">Close</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-card">
+        <h2>Found Items</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Reporter</th>
+              <th>Location</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-id="F1">
+              <td>Canon Camera</td>
+              <td>Security Desk</td>
+              <td>Main Auditorium</td>
+              <td><span class="badge badge-success">In Locker</span></td>
+              <td>
+                <button class="btn btn-outline" data-action="notify">Notify</button>
+                <button class="btn btn-outline" data-action="archive">Archive</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <div class="modal" id="bulkModal">
+    <div class="modal-content" style="background:#0f172a; color:#e2e8f0;">
+      <h3>Bulk Actions</h3>
+      <p>Select items to reassign or archive. Placeholder modal content.</p>
+      <button class="btn btn-primary" data-close-modal="bulkModal">Close</button>
+    </div>
+  </div>
+
+  <script src="../assets/js/admin.js"></script>
+</body>
+</html>

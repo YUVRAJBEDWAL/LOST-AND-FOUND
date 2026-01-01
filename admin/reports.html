@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analytics & Reports | Campus Lost & Found</title>
+  <link rel="stylesheet" href="../assets/css/admin.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <h2>CLF Admin</h2>
+      <ul>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="manage-users.html">Manage Users</a></li>
+        <li><a href="manage-items.html">Manage Items</a></li>
+        <li><a class="active" href="reports.html">Reports</a></li>
+        <li><a href="admin-login.html">Logout</a></li>
+      </ul>
+    </aside>
+    <section class="main-panel">
+      <div class="topbar">
+        <h1>Analytics</h1>
+        <button class="btn btn-primary">Export PDF</button>
+      </div>
+
+      <div class="card" style="background:#1e293b; border-radius:1rem; padding:1.5rem; border:1px solid var(--border);">
+        <canvas id="reportsChart" width="320" height="180"></canvas>
+      </div>
+
+      <div class="table-card">
+        <h2>Monthly Summary</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Month</th>
+              <th>Total Reports</th>
+              <th>Resolved</th>
+              <th>Avg. Resolution Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>September</td>
+              <td>180</td>
+              <td>160</td>
+              <td>2.3 days</td>
+            </tr>
+            <tr>
+              <td>October</td>
+              <td>210</td>
+              <td>192</td>
+              <td>2.0 days</td>
+            </tr>
+            <tr>
+              <td>November</td>
+              <td>240</td>
+              <td>221</td>
+              <td>1.8 days</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+  <script src="../assets/js/admin.js"></script>
+</body>
+</html>

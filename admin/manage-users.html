@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage Users | Campus Lost & Found</title>
+  <link rel="stylesheet" href="../assets/css/admin.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <h2>CLF Admin</h2>
+      <ul>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a class="active" href="manage-users.html">Manage Users</a></li>
+        <li><a href="manage-items.html">Manage Items</a></li>
+        <li><a href="reports.html">Reports</a></li>
+        <li><a href="admin-login.html">Logout</a></li>
+      </ul>
+    </aside>
+    <section class="main-panel">
+      <div class="topbar">
+        <h1>User Directory</h1>
+        <button class="btn btn-primary">Invite User</button>
+      </div>
+      <div class="table-card">
+        <div style="display:flex; gap:1rem; margin-bottom:1rem;">
+          <input style="flex:1; padding:0.75rem; border-radius:0.75rem; border:1px solid var(--border); background:#0f172a; color:#fff;" placeholder="Search user" />
+          <select style="padding:0.75rem; border-radius:0.75rem; border:1px solid var(--border); background:#0f172a; color:#fff;">
+            <option>All Roles</option>
+            <option>Student</option>
+            <option>Admin</option>
+          </select>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Reports</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-id="1">
+              <td>Avery Chen</td>
+              <td>avery.chen@campus.edu</td>
+              <td><span class="badge badge-success">Student</span></td>
+              <td>12</td>
+              <td>
+                <button class="btn btn-outline" data-action="promote">Promote</button>
+                <button class="btn btn-outline" data-action="disable">Disable</button>
+              </td>
+            </tr>
+            <tr data-id="2">
+              <td>Security Desk</td>
+              <td>security@campus.edu</td>
+              <td><span class="badge badge-danger">Admin</span></td>
+              <td>45</td>
+              <td>
+                <button class="btn btn-outline" data-action="edit">Edit</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+  <script src="../assets/js/admin.js"></script>
+</body>
+</html>

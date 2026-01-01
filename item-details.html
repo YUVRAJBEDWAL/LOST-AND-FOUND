@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Item Details | Campus Lost & Found</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <a class="logo" href="index.html"><strong>Campus Lost & Found</strong></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="items-list.html">Items</a></li>
+          <li><a href="report-lost.html">Report Lost</a></li>
+          <li><a href="report-found.html">Report Found</a></li>
+          <li><a href="login.html" class="btn btn-login">Login</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" style="margin-top:2rem;">
+    <div class="card" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:2rem; align-items:start;">
+      <div>
+        <img src="assets/images/placeholder-laptop.jpg" alt="Item photo" style="border-radius:1rem;" />
+      </div>
+      <div>
+        <span class="badge badge-lost">Lost</span>
+        <h1>Silver MacBook Pro 13"</h1>
+        <p>
+          Lost in the Innovation Lab on November 10th at 3:30 PM. Has a teal case and two stickers: one of the college mascot and another of a mountain landscape.
+        </p>
+        <ul style="list-style:none; margin:1.5rem 0; display:grid; gap:0.5rem;">
+          <li><strong>Date:</strong> Nov 10, 2025</li>
+          <li><strong>Location:</strong> Innovation Lab - Tech Building</li>
+          <li><strong>Category:</strong> Electronics</li>
+        </ul>
+        <button class="btn btn-primary" data-open-modal="contactOwnerModal">Contact Owner</button>
+      </div>
+    </div>
+  </main>
+
+  <div class="modal" id="contactOwnerModal">
+    <div class="modal-content">
+      <h3>Contact Owner</h3>
+      <p>Send a quick message to notify the owner you found a match.</p>
+      <form data-validate>
+        <div class="field">
+          <label for="yourName">Your Name</label>
+          <input type="text" id="yourName" required />
+        </div>
+        <div class="field">
+          <label for="yourMessage">Message</label>
+          <textarea id="yourMessage" placeholder="Provide meeting details or clarifications" required></textarea>
+        </div>
+        <div style="display:flex; gap:1rem; justify-content:flex-end;">
+          <button type="button" class="btn btn-outline" data-close-modal="contactOwnerModal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Send Message</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>Back to <a href="items-list.html">all items</a></p>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

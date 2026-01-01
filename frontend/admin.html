@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Campus Lost & Found</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="index.html" class="logo">Campus Lost & Found</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="items.html">Browse Items</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                    <li><a href="#" onclick="logout()" class="btn btn-outline btn-sm">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Admin Dashboard Section -->
+    <section class="section">
+        <div class="container">
+            <div class="flex justify-between items-center mb-8">
+                <h1 class="text-3xl font-bold">Admin Dashboard</h1>
+                <div class="flex gap-3">
+                    <button onclick="exportData('users')" class="btn btn-outline">Export Users</button>
+                    <button onclick="exportData('items')" class="btn btn-outline">Export Items</button>
+                </div>
+            </div>
+
+            <!-- Admin Content -->
+            <div class="admin-content">
+                <!-- Statistics Overview -->
+                <div id="adminStats" class="mb-8">
+                    <div class="text-center py-8">
+                        <div class="loading"></div>
+                        <p class="text-secondary mt-4">Loading dashboard...</p>
+                    </div>
+                </div>
+
+                <!-- Users Management -->
+                <div class="mb-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="flex justify-between items-center">
+                                <h3>Users Management</h3>
+                                <input 
+                                    type="text" 
+                                    id="searchUsers" 
+                                    class="form-input" 
+                                    placeholder="Search users..."
+                                    style="max-width: 300px;"
+                                >
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div id="usersTable">
+                                <div class="text-center py-8">
+                                    <div class="loading"></div>
+                                    <p class="text-secondary mt-4">Loading users...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Items Management -->
+                <div class="mb-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="flex justify-between items-center">
+                                <h3>Items Management</h3>
+                                <input 
+                                    type="text" 
+                                    id="searchItems" 
+                                    class="form-input" 
+                                    placeholder="Search items..."
+                                    style="max-width: 300px;"
+                                >
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div id="itemsTable">
+                                <div class="text-center py-8">
+                                    <div class="loading"></div>
+                                    <p class="text-secondary mt-4">Loading items...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; <span id="year"></span> Campus Lost & Found | Built for connected campuses.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+    <script>
+        // Set current year
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('year').textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+</html>

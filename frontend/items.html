@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Items | Campus Lost & Found</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="index.html" class="logo">Campus Lost & Found</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="items.html">Browse Items</a></li>
+                    <li><a href="report-lost.html">Report Lost</a></li>
+                    <li><a href="report-found.html">Report Found</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <!-- Auth links will be added dynamically -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Items Section -->
+    <section class="section">
+        <div class="container">
+            <div class="flex justify-between items-center mb-8">
+                <h1 class="text-3xl font-bold">Browse Items</h1>
+                <div class="flex gap-3">
+                    <a href="report-lost.html" class="btn btn-primary">Report Lost Item</a>
+                    <a href="report-found.html" class="btn btn-secondary">Report Found Item</a>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="card mb-8">
+                <div class="card-body">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div>
+                            <label for="search" class="form-label">Search Items</label>
+                            <input 
+                                type="text" 
+                                id="search" 
+                                class="form-input" 
+                                placeholder="Search by name, description, location..."
+                            >
+                        </div>
+                        <div>
+                            <label for="typeFilter" class="form-label">Item Type</label>
+                            <select id="typeFilter" class="form-select">
+                                <option value="all">All Items</option>
+                                <option value="lost">Lost Items</option>
+                                <option value="found">Found Items</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="locationFilter" class="form-label">Location</label>
+                            <input 
+                                type="text" 
+                                id="locationFilter" 
+                                class="form-input" 
+                                placeholder="Filter by location"
+                            >
+                        </div>
+                        <div class="flex items-end">
+                            <button onclick="resetFilters()" class="btn btn-outline w-full">Reset Filters</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Items Container -->
+            <div class="items-container">
+                <div class="text-center py-12">
+                    <div class="loading"></div>
+                    <p class="text-secondary mt-4">Loading items...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; <span id="year"></span> Campus Lost & Found | Built for connected campuses.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/items.js"></script>
+    <script>
+        // Reset filters
+        function resetFilters() {
+            document.getElementById('search').value = '';
+            document.getElementById('typeFilter').value = 'all';
+            document.getElementById('locationFilter').value = '';
+            filterItems('', 'all', '');
+        }
+
+        // Set current year
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('year').textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+</html>

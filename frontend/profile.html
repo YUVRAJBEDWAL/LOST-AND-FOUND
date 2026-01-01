@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | Campus Lost & Found</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="index.html" class="logo">Campus Lost & Found</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="items.html">Browse Items</a></li>
+                    <li><a href="report-lost.html">Report Lost</a></li>
+                    <li><a href="report-found.html">Report Found</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <!-- Auth links will be added dynamically -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Profile Section -->
+    <section class="section">
+        <div class="container">
+            <div class="max-w-4xl mx-auto">
+                <!-- Profile Header -->
+                <div class="card mb-8">
+                    <div class="card-body">
+                        <div class="flex items-center gap-6">
+                            <div class="w-20 h-20 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold" id="userAvatar">
+                                <!-- User initial will be shown here -->
+                            </div>
+                            <div class="flex-1">
+                                <h1 class="text-2xl font-bold mb-2" id="userName">Loading...</h1>
+                                <p class="text-secondary mb-4" id="userEmail">Loading...</p>
+                                <div class="flex gap-3">
+                                    <button onclick="editProfile()" class="btn btn-outline btn-sm">Edit Profile</button>
+                                    <button onclick="logout()" class="btn btn-ghost btn-sm text-danger">Logout</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Overview -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h3 class="text-2xl font-bold text-primary" id="totalReports">0</h3>
+                            <p class="text-secondary">Total Reports</p>
+                        </div>
+                    </div>
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h3 class="text-2xl font-bold text-warning" id="lostItems">0</h3>
+                            <p class="text-secondary">Lost Items</p>
+                        </div>
+                    </div>
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h3 class="text-2xl font-bold text-success" id="foundItems">0</h3>
+                            <p class="text-secondary">Found Items</p>
+                        </div>
+                    </div>
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h3 class="text-2xl font-bold text-danger" id="claims">0</h3>
+                            <p class="text-secondary">Claims Made</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="flex gap-4 border-b">
+                            <button onclick="showTab('myReports')" class="tab-btn active" data-tab="myReports">
+                                My Reports
+                            </button>
+                            <button onclick="showTab('myClaims')" class="tab-btn" data-tab="myClaims">
+                                My Claims
+                            </button>
+                            <button onclick="showTab('settings')" class="tab-btn" data-tab="settings">
+                                Settings
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- My Reports Tab -->
+                        <div id="myReports" class="tab-content">
+                            <div class="mb-4 flex justify-between items-center">
+                                <h3 class="text-lg font-semibold">My Reported Items</h3>
+                                <div class="flex gap-2">
+                                    <button onclick="filterUserItems('all')" class="btn btn-sm btn-outline active">All</button>
+                                    <button onclick="filterUserItems('lost')" class="btn btn-sm btn-outline">Lost</button>
+                                    <button onclick="filterUserItems('found')" class="btn btn-sm btn-outline">Found</button>
+                                </div>
+                            </div>
+                            <div id="userItemsContainer">
+                                <div class="text-center py-8">
+                                    <div class="loading"></div>
+                                    <p class="text-secondary mt-4">Loading your reports...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- My Claims Tab -->
+                        <div id="myClaims" class="tab-content hidden">
+                            <h3 class="text-lg font-semibold mb-4">My Claims</h3>
+                            <div id="userClaimsContainer">
+                                <div class="text-center py-8">
+                                    <div class="loading"></div>
+                                    <p class="text-secondary mt-4">Loading your claims...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Settings Tab -->
+                        <div id="settings" class="tab-content hidden">
+                            <h3 class="text-lg font-semibold mb-4">Account Settings</h3>
+                            <form id="settingsForm" onsubmit="updateSettings(event)">
+                                <div class="form-group">
+                                    <label for="settingsName" class="form-label">Full Name</label>
+                                    <input 
+                                        type="text" 
+                                        id="settingsName" 
+                                        name="name" 
+                                        class="form-input" 
+                                        required
+                                    >
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="settingsEmail" class="form-label">Email Address</label>
+                                    <input 
+                                        type="email" 
+                                        id="settingsEmail" 
+                                        name="email" 
+                                        class="form-input" 
+                                        required
+                                    >
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="currentPassword" class="form-label">Current Password</label>
+                                    <input 
+                                        type="password" 
+                                        id="currentPassword" 
+                                        name="currentPassword" 
+                                        class="form-input" 
+                                        placeholder="Enter current password to change"
+                                    >
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="newPassword" class="form-label">New Password</label>
+                                    <input 
+                                        type="password" 
+                                        id="newPassword" 
+                                        name="newPassword" 
+                                        class="form-input" 
+                                        placeholder="Leave blank to keep current password"
+                                    >
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="confirmNewPassword" class="form-label">Confirm New Password</label>
+                                    <input 
+                                        type="password" 
+                                        id="confirmNewPassword" 
+                                        name="confirmNewPassword" 
+                                        class="form-input" 
+                                        placeholder="Confirm new password"
+                                    >
+                                </div>
+                                
+                                <div class="flex gap-4">
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                    <button type="button" onclick="resetSettingsForm()" class="btn btn-outline">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; <span id="year"></span> Campus Lost & Found | Built for connected campuses.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        let currentUser = null;
+        let userItems = [];
+        let userClaims = [];
+
+        // Load profile data
+        async function loadProfile() {
+            if (!requireAuth()) return;
+            
+            try {
+                currentUser = getCurrentUser();
+                if (!currentUser) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                // Update profile header
+                document.getElementById('userName').textContent = currentUser.name;
+                document.getElementById('userEmail').textContent = currentUser.email;
+                document.getElementById('userAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
+
+                // Load user's items and claims
+                await Promise.all([
+                    loadUserItems(),
+                    loadUserClaims(),
+                    loadUserStats()
+                ]);
+
+                // Load settings
+                loadSettings();
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                showAlert('Failed to load profile data', 'danger');
+            }
+        }
+
+        // Load user's items
+        async function loadUserItems() {
+            try {
+                const [lostItems, foundItems] = await Promise.all([
+                    api.get('/items/lost/my'),
+                    api.get('/items/found/my')
+                ]);
+                
+                userItems = [
+                    ...lostItems.map(item => ({ ...item, type: 'lost' })),
+                    ...foundItems.map(item => ({ ...item, type: 'found' }))
+                ].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                
+                renderUserItems();
+            } catch (error) {
+                console.error('Error loading user items:', error);
+                document.getElementById('userItemsContainer').innerHTML = 
+                    '<p class="text-center text-secondary">Unable to load your reports.</p>';
+            }
+        }
+
+        // Load user's claims
+        async function loadUserClaims() {
+            try {
+                userClaims = await api.get('/claims/my');
+                renderUserClaims();
+            } catch (error) {
+                console.error('Error loading user claims:', error);
+                document.getElementById('userClaimsContainer').innerHTML = 
+                    '<p class="text-center text-secondary">Unable to load your claims.</p>';
+            }
+        }
+
+        // Load user statistics
+        async function loadUserStats() {
+            try {
+                const stats = await api.get('/users/me/stats');
+                document.getElementById('totalReports').textContent = stats.totalReports || 0;
+                document.getElementById('lostItems').textContent = stats.lostItems || 0;
+                document.getElementById('foundItems').textContent = stats.foundItems || 0;
+                document.getElementById('claims').textContent = stats.claims || 0;
+            } catch (error) {
+                console.error('Error loading user stats:', error);
+            }
+        }
+
+        // Render user items
+        function renderUserItems(filter = 'all') {
+            const container = document.getElementById('userItemsContainer');
+            const filteredItems = filter === 'all' ? userItems : userItems.filter(item => item.type === filter);
+            
+            if (filteredItems.length === 0) {
+                container.innerHTML = '<p class="text-center text-secondary">No reports found.</p>';
+                return;
+            }
+            
+            const itemsHTML = filteredItems.map(item => {
+                const badgeClass = item.type === 'lost' ? 'badge-danger' : 'badge-success';
+                const badgeText = item.type === 'lost' ? 'Lost' : 'Found';
+                
+                return `
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <h4 class="font-semibold">${escapeHtml(item.itemName)}</h4>
+                                        <span class="badge ${badgeClass}">${badgeText}</span>
+                                        ${item.status === 'RESOLVED' ? '<span class="badge badge-success">Resolved</span>' : ''}
+                                    </div>
+                                    <p class="text-secondary text-sm mb-2">${escapeHtml(item.description)}</p>
+                                    <div class="text-xs text-secondary">
+                                        <p><strong>Location:</strong> ${escapeHtml(item.location)}</p>
+                                        <p><strong>Date:</strong> ${formatDate(item.dateFound || item.dateLost)}</p>
+                                        <p><strong>Reported:</strong> ${formatDate(item.createdAt)}</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button onclick="viewItemDetails(${item.id}, '${item.type}')" class="btn btn-sm btn-outline">View</button>
+                                    ${item.status !== 'RESOLVED' ? `
+                                        <button onclick="markAsResolved('${item.id}', '${item.type}')" class="btn btn-sm btn-primary">Mark Resolved</button>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            container.innerHTML = itemsHTML;
+        }
+
+        // Render user claims
+        function renderUserClaims() {
+            const container = document.getElementById('userClaimsContainer');
+            
+            if (userClaims.length === 0) {
+                container.innerHTML = '<p class="text-center text-secondary">No claims found.</p>';
+                return;
+            }
+            
+            const claimsHTML = userClaims.map(claim => {
+                const statusClass = claim.status === 'APPROVED' ? 'badge-success' : 
+                                  claim.status === 'REJECTED' ? 'badge-danger' : 'badge-warning';
+                
+                return `
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <h4 class="font-semibold">${escapeHtml(claim.item.itemName)}</h4>
+                                        <span class="badge ${statusClass}">${claim.status}</span>
+                                    </div>
+                                    <p class="text-secondary text-sm mb-2">${escapeHtml(claim.claimMessage)}</p>
+                                    <div class="text-xs text-secondary">
+                                        <p><strong>Item Type:</strong> ${claim.itemType}</p>
+                                        <p><strong>Claimed:</strong> ${formatDate(claim.createdAt)}</p>
+                                    </div>
+                                </div>
+                                <button onclick="viewItemDetails(${claim.item.id}, '${claim.itemType}')" class="btn btn-sm btn-outline">View Item</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            container.innerHTML = claimsHTML;
+        }
+
+        // Tab switching
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.remove('hidden');
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+        }
+
+        // Filter user items
+        function filterUserItems(filter) {
+            // Update button states
+            document.querySelectorAll('#myReports .btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            renderUserItems(filter);
+        }
+
+        // Load settings
+        function loadSettings() {
+            if (currentUser) {
+                document.getElementById('settingsName').value = currentUser.name;
+                document.getElementById('settingsEmail').value = currentUser.email;
+            }
+        }
+
+        // Update settings
+        async function updateSettings(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            try {
+                showLoading(submitBtn);
+                
+                const formData = {
+                    name: form.name.value,
+                    email: form.email.value
+                };
+                
+                // Add password fields if provided
+                if (form.currentPassword.value && form.newPassword.value) {
+                    if (form.newPassword.value !== form.confirmNewPassword.value) {
+                        throw new Error('New passwords do not match');
+                    }
+                    
+                    formData.currentPassword = form.currentPassword.value;
+                    formData.newPassword = form.newPassword.value;
+                }
+                
+                await api.put('/users/me', formData);
+                
+                // Update stored user data
+                const updatedUser = { ...currentUser, ...formData };
+                localStorage.setItem('user', JSON.stringify(updatedUser));
+                currentUser = updatedUser;
+                
+                // Update UI
+                document.getElementById('userName').textContent = updatedUser.name;
+                document.getElementById('userEmail').textContent = updatedUser.email;
+                document.getElementById('userAvatar').textContent = updatedUser.name.charAt(0).toUpperCase();
+                
+                showAlert('Settings updated successfully!', 'success');
+                resetSettingsForm();
+            } catch (error) {
+                console.error('Error updating settings:', error);
+                showAlert(error.message || 'Failed to update settings', 'danger');
+            } finally {
+                hideLoading(submitBtn, originalText);
+            }
+        }
+
+        // Reset settings form
+        function resetSettingsForm() {
+            document.getElementById('settingsForm').reset();
+            loadSettings();
+        }
+
+        // Mark item as resolved
+        async function markAsResolved(itemId, itemType) {
+            if (!confirm('Are you sure you want to mark this item as resolved?')) {
+                return;
+            }
+            
+            try {
+                await api.put(`/items/${itemType}/${itemId}/resolve`);
+                showAlert('Item marked as resolved!', 'success');
+                loadUserItems(); // Reload items
+                loadUserStats(); // Reload stats
+            } catch (error) {
+                console.error('Error marking item as resolved:', error);
+                showAlert('Failed to update item status', 'danger');
+            }
+        }
+
+        // Edit profile (placeholder for future functionality)
+        function editProfile() {
+            showTab('settings');
+        }
+
+        // Initialize profile page
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('year').textContent = new Date().getFullYear();
+            loadProfile();
+        });
+    </script>
+</body>
+</html>

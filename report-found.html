@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Report Found Item | Campus Lost & Found</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <a class="logo" href="index.html"><strong>Campus Lost & Found</strong></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="items-list.html">Items</a></li>
+          <li><a href="report-lost.html">Report Lost</a></li>
+          <li><a class="btn btn-primary" href="report-found.html">Report Found</a></li>
+          <li><a href="login.html" class="btn btn-login">Login</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero" style="padding-bottom:3rem;">
+    <div class="container">
+      <h1>Report a Found Item</h1>
+      <p>Help fellow students reclaim their belongings in minutes.</p>
+    </div>
+  </section>
+
+  <main class="container">
+    <form class="form-card" data-validate>
+      <div class="form-row">
+        <div class="field">
+          <label for="finderName">Your Name</label>
+          <input type="text" id="finderName" name="finderName" placeholder="Rani Kale" required />
+        </div>
+        <div class="field">
+          <label for="finderEmail">Email</label>
+          <input type="email" id="finderEmail" name="finderEmail" placeholder="ranikale2022@gmail.com" required />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label for="finderPhone">Phone</label>
+          <input type="tel" id="finderPhone" name="finderPhone" placeholder="(555) 987-6543" />
+        </div>
+        <div class="field">
+          <label for="foundItem">Item Name</label>
+          <input type="text" id="foundItem" name="foundItem" placeholder="E.g. Calculator" required />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label for="foundCategory">Category</label>
+          <select id="foundCategory" name="foundCategory" required>
+            <option value="">Select category</option>
+            <option>Electronics</option>
+            <option>Accessories</option>
+            <option>Documents</option>
+            <option>Apparel</option>
+            <option>Others</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="foundDate">Date Found</label>
+          <input type="date" id="foundDate" name="foundDate" required />
+        </div>
+        <div class="field">
+          <label for="foundLocation">Location</label>
+          <input type="text" id="foundLocation" name="foundLocation" placeholder="Sports Complex" required />
+        </div>
+      </div>
+      <div class="field">
+        <label for="foundDescription">Description</label>
+        <textarea id="foundDescription" name="foundDescription" placeholder="Include any identifiers, condition, etc." required></textarea>
+      </div>
+      <div class="field">
+        <label for="foundPhoto">Upload Photo</label>
+        <input type="file" id="foundPhoto" name="foundPhoto" accept="image/*" />
+      </div>
+      <button class="btn btn-primary" type="submit">Submit Found Report</button>
+    </form>
+  </main>
+
+  <footer class="footer">
+    <p>Thank you for keeping our campus connected.</p>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

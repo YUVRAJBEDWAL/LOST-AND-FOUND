@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard | Campus Lost & Found</title>
+  <link rel="stylesheet" href="../assets/css/admin.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <h2>CLF Admin</h2>
+      <ul>
+        <li><a class="active" href="dashboard.html">Dashboard</a></li>
+        <li><a href="manage-users.html">Manage Users</a></li>
+        <li><a href="manage-items.html">Manage Items</a></li>
+        <li><a href="reports.html">Reports</a></li>
+        <li><a href="admin-login.html">Logout</a></li>
+      </ul>
+    </aside>
+    <section class="main-panel">
+      <div class="topbar">
+        <div>
+          <h1>Dashboard Overview</h1>
+          <p style="color:#94a3b8;">Realtime snapshot of activity</p>
+        </div>
+        <button class="btn btn-primary">Add Announcement</button>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <h3>Total Items</h3>
+          <p id="totalItems">0</p>
+        </div>
+        <div class="stat-card">
+          <h3>Lost Items</h3>
+          <p id="lostItems">0</p>
+        </div>
+        <div class="stat-card">
+          <h3>Found Items</h3>
+          <p id="foundItems">0</p>
+        </div>
+        <div class="stat-card">
+          <h3>Users</h3>
+          <p id="totalUsers">0</p>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+          <h2>Recent Activity</h2>
+          <button class="btn btn-outline">View All</button>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>User</th>
+              <th>Status</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>MacBook Air</td>
+              <td>Alex Kim</td>
+              <td><span class="badge badge-danger">Lost</span></td>
+              <td>Nov 15</td>
+            </tr>
+            <tr>
+              <td>Wallet</td>
+              <td>Jordan Lee</td>
+              <td><span class="badge badge-success">Found</span></td>
+              <td>Nov 14</td>
+            </tr>
+            <tr>
+              <td>Lab Keys</td>
+              <td>Campus Security</td>
+              <td><span class="badge badge-success">Found</span></td>
+              <td>Nov 13</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+  <script src="../assets/js/admin.js"></script>
+</body>
+</html>

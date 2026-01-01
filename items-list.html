@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Browse Items | Campus Lost & Found</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <a class="logo" href="index.html"><strong>Campus Lost & Found</strong></a>
+      <nav>
+        <ul class="nav-links">
+          <li><a class="btn btn-primary" href="items-list.html">Items</a></li>
+          <li><a href="report-lost.html">Report Lost</a></li>
+          <li><a href="report-found.html">Report Found</a></li>
+          <li><a href="login.html" class="btn btn-login">Login</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 class="section-title">Search Lost & Found Items</h1>
+    <div class="search-bar">
+      <input type="search" id="searchItems" placeholder="Search by keyword..." />
+      <select>
+        <option>All Categories</option>
+        <option>Electronics</option>
+        <option>Accessories</option>
+        <option>Books</option>
+        <option>IDs</option>
+      </select>
+      <select>
+        <option>Status: All</option>
+        <option>Lost</option>
+        <option>Found</option>
+      </select>
+      <button class="btn btn-primary">Filter</button>
+    </div>
+
+    <div class="card-grid">
+      <article class="card item-card" data-status="lost">
+        <img src="assets/images/item-bag.svg" alt="Bag illustration" />
+        <div>
+          <h3>Canvas Backpack</h3>
+          <p>Lost near Humanities Block.</p>
+          <span class="badge badge-lost">Lost</span>
+        </div>
+        <a class="btn btn-outline" href="item-details.html">View Details</a>
+      </article>
+      <article class="card item-card" data-status="found">
+        <img src="assets/images/item-watch.svg" alt="Watch illustration" />
+        <div>
+          <h3>Smart Watch</h3>
+          <p>Found at Gym reception.</p>
+          <span class="badge badge-found">Found</span>
+        </div>
+        <a class="btn btn-outline" href="item-details.html">View Details</a>
+      </article>
+      <article class="card item-card" data-status="lost">
+        <img src="assets/images/item-wallet.svg" alt="Wallet illustration" />
+        <div>
+          <h3>Brown Wallet</h3>
+          <p>Contains student ID and metro card.</p>
+          <span class="badge badge-lost">Lost</span>
+        </div>
+        <a class="btn btn-outline" href="item-details.html">View Details</a>
+      </article>
+    </div>
+  </main>
+
+  <div class="modal" id="filterModal">
+    <div class="modal-content">
+      <h3>Advanced Filters</h3>
+      <p>Placeholder modal for advanced filtering.</p>
+      <button class="btn btn-primary" data-close-modal="filterModal">Close</button>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>Need help? Contact campus support 24/7.</p>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async function() {
+      const searchInput = document.getElementById('searchItems');
+      const categoryFilter = document.querySelector('select:nth-of-type(1)');
+      const statusFilter = document.querySelector('select:nth-of-type(2)');
+      const filterBtn = document.querySelector('.btn-primary');
+      const cardGrid = document.querySelector('.card-grid');
+      
+      let allItems = [];
+      
+      // Load items from API
+      async function loadItems() {
+        try {
+          // Load both lost and found items
+          const [lostResponse, foundResponse] = await Promise.all([
+            API.lostItems.getAll(0, 50, 'createdAt', 'desc'),
+            API.foundItems.getAll(0, 50, 'createdAt', 'desc')
+          ]);
+          
+          allItems = [
+            ...lostResponse.content.map(item => ({...item, type: 'lost'})),
+            ...foundResponse.content.map(item => ({...item, type: 'found'}))
+          ].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+          
+          displayItems(allItems);
+        } catch (error) {
+          console.error('Error loading items:', error);
+          UI.showAlert('Failed to load items', 'error');
+        }
+      }
+      
+      // Display items in the grid
+      function displayItems(items) {
+        cardGrid.innerHTML = '';
+        
+        items.forEach(item => {
+          const card = document.createElement('article');
+          card.className = 'card item-card';
+          card.dataset.status = item.status.toLowerCase();
+          
+          const statusClass = item.type === 'lost' ? 'badge-lost' : 'badge-found';
+          const statusText = item.type === 'lost' ? 'Lost' : 'Found';
+          
+          card.innerHTML = `
+            <img src="assets/images/item-${item.type === 'lost' ? 'bag' : 'watch'}.svg" alt="${item.itemName} illustration" />
+            <div>
+              <h3>${item.itemName}</h3>
+              <p>${item.description || item.location}</p>
+              <span class="badge ${statusClass}">${statusText}</span>
+              <small style="display:block; margin-top:0.5rem; color:var(--text-light);">
+                ${UI.formatDate(item.createdAt)} • ${item.location}
+              </small>
+            </div>
+            <a class="btn btn-outline" href="item-details.html?id=${item.id}&type=${item.type}">View Details</a>
+          `;
+          
+          cardGrid.appendChild(card);
+        });
+      }
+      
+      // Search functionality
+      searchInput.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        const filteredItems = allItems.filter(item => 
+          item.itemName.toLowerCase().includes(searchTerm) ||
+          (item.description && item.description.toLowerCase().includes(searchTerm)) ||
+          item.location.toLowerCase().includes(searchTerm)
+        );
+        displayItems(filteredItems);
+      });
+      
+      // Filter functionality
+      filterBtn.addEventListener('click', () => {
+        const category = categoryFilter.value;
+        const status = statusFilter.value;
+        
+        let filteredItems = allItems;
+        
+        if (category !== 'All Categories') {
+          filteredItems = filteredItems.filter(item => 
+            item.category && item.category.toLowerCase() === category.toLowerCase()
+          );
+        }
+        
+        if (status !== 'Status: All') {
+          filteredItems = filteredItems.filter(item => 
+            item.status.toLowerCase() === status.toLowerCase()
+          );
+        }
+        
+        displayItems(filteredItems);
+      });
+      
+      // Load items on page load
+      loadItems();
+    });
+  </script>
+</body>
+</html>
