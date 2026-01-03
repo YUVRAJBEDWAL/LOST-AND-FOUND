@@ -1,5 +1,5 @@
 // API Configuration and Utilities
-const API_BASE_URL = 'https://lively-encouragement-production.up.railway.app/api';
+const API_BASE_URL = 'https://campus-lost-found-api.onrender.com/api';
 
 // Generic API request function
 async function apiRequest(endpoint, options = {}) {
