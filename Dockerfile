@@ -1,30 +1,23 @@
- # Multi-stage build for Railway deployment
-FROM maven:3.9-openjdk-17-slim AS build
+ # Use Maven image to build
+FROM maven:3.8.6-openjdk-17 AS build
 
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 
-# Build the application
+# Build the app
 RUN mvn clean package -DskipTests
 
-# Runtime stage
-FROM openjdk:17-jdk-slim
+# Use OpenJDK runtime
+FROM openjdk:17-jre-slim
 
 WORKDIR /app
 
-# Install wget for health check
-RUN apt-get update && apt-get install -y wget && rm -rf /var/lib/apt/lists/*
-
-# Copy the built JAR from build stage
+# Copy the built jar
 COPY --from=build /app/target/campus-lost-found-1.0.0.jar app.jar
 
-# Expose port (Railway uses PORT env var)
+# Expose port
 EXPOSE 8080
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=60s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:8080/api/auth/me || exit 1
-
-# Run the application
+# Run the app
 CMD ["java", "-jar", "app.jar"]
