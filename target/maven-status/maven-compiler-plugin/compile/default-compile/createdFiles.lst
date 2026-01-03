@@ -1,3 +1,4 @@
+com/campuslostfound/util/PasswordEncoder.class
 com/campuslostfound/exception/ErrorResponse.class
 com/campuslostfound/dto/AuthResponse.class
 com/campuslostfound/repository/FoundItemRepository.class

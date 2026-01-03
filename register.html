@@ -1,95 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Create Account | Campus Lost & Found</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | Campus Lost & Found</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <section class="hero" style="min-height:100vh; display:flex; align-items:center;">
-    <div class="container" style="max-width:600px;">
-      <div class="form-card">
-        <h1>Create Your Account</h1>
-        <p style="color:var(--text-light); margin-bottom:1.5rem;">Track your lost/found submissions in one place.</p>
-        <form data-validate>
-          <div class="field">
-            <label for="name">Full Name</label>
-            <input id="name" name="name" placeholder="John Doe" required />
-          </div>
-          <div class="field">
-            <label for="registerEmail">Campus Email</label>
-            <input type="email" id="registerEmail" name="email" placeholder="john@campus.edu" required />
-          </div>
-          <div class="field">
-            <label for="phone">Phone (Optional)</label>
-            <input type="tel" id="phone" name="phone" placeholder="+1234567890" />
-          </div>
-          <div class="field">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Min 6 characters" required />
-          </div>
-          <div class="field">
-            <label for="confirmPassword">Confirm Password</label>
-            <input type="password" id="confirmPassword" placeholder="Re-enter password" required />
-          </div>
-          <button class="btn btn-primary" style="width:100%; margin-top:1rem;">Create Account</button>
-          <p style="margin-top:1rem; text-align:center;">Already registered? <a href="login.html" style="color:var(--primary);">Login</a></p>
-        </form>
-      </div>
-    </div>
-  </section>
-  <script src="assets/js/main.js"></script>
-  <script src="assets/js/api.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', async function() {
-      const form = document.querySelector('form[data-validate]');
-      const registerBtn = form.querySelector('button[type="submit"]');
-      
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const name = form.querySelector('#name').value;
-        const email = form.querySelector('#registerEmail').value;
-        const phone = form.querySelector('#phone').value;
-        const password = form.querySelector('#password').value;
-        const confirmPassword = form.querySelector('#confirmPassword').value;
-        
-        // Validate passwords match
-        if (password !== confirmPassword) {
-          UI.showAlert('Passwords do not match', 'error');
-          return;
-        }
-        
-        if (password.length < 6) {
-          UI.showAlert('Password must be at least 6 characters', 'error');
-          return;
-        }
-        
-        try {
-          UI.showLoading(registerBtn);
-          
-          const response = await API.auth.register({
-            name,
-            email,
-            phone,
-            password
-          });
-          
-          UI.showAlert(`Account created successfully! Welcome, ${response.name}!`, 'success');
-          
-          // Redirect to dashboard after successful registration
-          setTimeout(() => {
-            window.location.href = 'index.html';
-          }, 1500);
-          
-        } catch (error) {
-          UI.showAlert(error.message, 'error');
-        } finally {
-          UI.hideLoading(registerBtn);
-        }
-      });
-    });
-  </script>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="index.html" class="logo">Campus Lost & Found</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="items.html">Browse Items</a></li>
+                    <li><a href="login.html" class="btn btn-outline btn-sm">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Register Section -->
+    <section class="section">
+        <div class="container">
+            <div class="max-w-md mx-auto">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h2>Create Account</h2>
+                        <p class="text-secondary">Join our campus community</p>
+                    </div>
+                    <div class="card-body">
+                        <form id="registerForm" onsubmit="handleRegister(event)">
+                            <div class="form-group">
+                                <label for="name" class="form-label">Full Name</label>
+                                <input 
+                                    type="text" 
+                                    id="name" 
+                                    name="name" 
+                                    class="form-input" 
+                                    placeholder="Enter your full name"
+                                    required
+                                >
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input 
+                                    type="email" 
+                                    id="email" 
+                                    name="email" 
+                                    class="form-input" 
+                                    placeholder="Enter your email"
+                                    required
+                                >
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="password" class="form-label">Password</label>
+                                <input 
+                                    type="password" 
+                                    id="password" 
+                                    name="password" 
+                                    class="form-input" 
+                                    placeholder="Create a password (min. 6 characters)"
+                                    minlength="6"
+                                    required
+                                >
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                <input 
+                                    type="password" 
+                                    id="confirmPassword" 
+                                    name="confirmPassword" 
+                                    class="form-input" 
+                                    placeholder="Confirm your password"
+                                    required
+                                >
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="mr-2" required>
+                                    <span class="text-sm">
+                                        I agree to the 
+                                        <a href="#" class="text-primary hover:underline">Terms of Service</a> 
+                                        and 
+                                        <a href="#" class="text-primary hover:underline">Privacy Policy</a>
+                                    </span>
+                                </label>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary w-full">
+                                Create Account
+                            </button>
+                        </form>
+                        
+                        <div class="text-center mt-6">
+                            <p class="text-secondary">
+                                Already have an account? 
+                                <a href="login.html" class="text-primary hover:underline">Sign in</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Benefits Card -->
+                <div class="card mt-6">
+                    <div class="card-body">
+                        <h3 class="text-lg font-semibold mb-3">Why Join Us?</h3>
+                        <ul class="space-y-2 text-sm text-secondary">
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-success mr-2 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                Report and track lost items easily
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-success mr-2 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                Get notified when matching items are found
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-success mr-2 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                Connect with campus community
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-success mr-2 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                Safe and secure platform
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; <span id="year"></span> Campus Lost & Found | Built for connected campuses.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // Set current year
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('year').textContent = new Date().getFullYear();
+        });
+    </script>
 </body>
 </html>

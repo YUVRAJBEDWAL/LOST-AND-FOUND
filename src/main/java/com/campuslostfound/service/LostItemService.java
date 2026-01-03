@@ -87,7 +87,7 @@ public class LostItemService {
     public void deleteLostItem(Long id) {
         Objects.requireNonNull(id, "id must not be null");
         LostItem lostItem = getLostItemById(id);
-        lostItemRepository.delete(lostItem);
+        lostItemRepository.delete((LostItem) lostItem);
     }
 
     public long getOpenLostItemsCount() {

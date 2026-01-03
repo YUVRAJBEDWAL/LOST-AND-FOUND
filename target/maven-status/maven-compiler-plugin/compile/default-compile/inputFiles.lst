@@ -24,6 +24,7 @@
 /Users/yuvrajbedwal/Desktop/Campus lost and found/src/main/java/com/campuslostfound/service/FoundItemService.java
 /Users/yuvrajbedwal/Desktop/Campus lost and found/src/main/java/com/campuslostfound/config/JwtTokenProvider.java
 /Users/yuvrajbedwal/Desktop/Campus lost and found/src/main/java/com/campuslostfound/repository/FoundItemRepository.java
+/Users/yuvrajbedwal/Desktop/Campus lost and found/src/main/java/com/campuslostfound/util/PasswordEncoder.java
 /Users/yuvrajbedwal/Desktop/Campus lost and found/src/main/java/com/campus/lostfound/entity/LostItem.java
 /Users/yuvrajbedwal/Desktop/Campus lost and found/src/main/java/com/campuslostfound/controller/FoundItemController.java
 /Users/yuvrajbedwal/Desktop/Campus lost and found/src/main/java/com/campuslostfound/service/AuthService.java
