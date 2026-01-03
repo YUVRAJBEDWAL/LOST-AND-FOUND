@@ -1,6 +1,5 @@
 // API Configuration and Utilities
 const API_BASE_URL = 'https://campus-lost-found-api.onrender.com/api';
-
 // Generic API request function
 async function apiRequest(endpoint, options = {}) {
   const url = `${API_BASE_URL}${endpoint}`;
