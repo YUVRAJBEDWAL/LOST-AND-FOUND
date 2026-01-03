@@ -1,11 +1,21 @@
 // Report submission functions
 async function submitLostItem(formData) {
   try {
+    // Check if user is authenticated
+    const token = localStorage.getItem('jwtToken');
+    if (!token) {
+      showAlert('Please login first to report lost items', 'warning');
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 2000);
+      return;
+    }
+
     const response = await fetch('http://localhost:8080/api/items/lost', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(formData)
     });
@@ -32,11 +42,21 @@ async function submitLostItem(formData) {
 
 async function submitFoundItem(formData) {
   try {
+    // Check if user is authenticated
+    const token = localStorage.getItem('jwtToken');
+    if (!token) {
+      showAlert('Please login first to report found items', 'warning');
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 2000);
+      return;
+    }
+
     const response = await fetch('http://localhost:8080/api/items/found', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(formData)
     });
